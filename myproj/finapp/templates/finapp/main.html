@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block main %}
+        <div class="ticker-container">
+          <div class="ticker">
+          	<p class="ticker-item">TSX</p>
+          	<p class="ticker-price">{{tickers.3|stringformat:".3f"}}</p>
+          </div>
+          <div class="ticker">
+          	<p class="ticker-item">NYSE</p>
+          	<p class="ticker-price">{{tickers.1|stringformat:".3f"}}
+          </div>
+          <div class="ticker">
+          	<p class="ticker-item">S&P500</p>
+          	<p class="ticker-price">{{tickers.2|stringformat:".3f"}}</p>
+          </div>
+          <div class="ticker">
+          	<p class="ticker-item">NASDAQ</p>
+          	<p class="ticker-price">{{tickers.4|stringformat:".3f"}}</p>
+          </div>
+          <div class="ticker">
+          	<p class="ticker-item">CAD/USD</p>
+          	<p class="ticker-price">{{tickers.0|stringformat:".3f"}}</p>
+          </div>
+        </div>
+     <main>
+        <h1 class="title">Let's Be Wealthy</h1>
+
+        <div class="img"><img src="{% static 'finapp/coverpic.jpg' %}" alt='home picture' class="img-fluid"></div>
+
+        <p class="info">Our focus on value investing is different from traditional growth and value approach. We believe that valuation should be relative.
+          With our tool, our users should be able to:
+        <ul class="item">
+            <li>Compare between high multiples stock and low multiples stock </li>
+            <li>Compare market's historical forecast of future operational performance</li>
+            <li>Compare historical actual performance with market implied performance</li>
+            <li>Able to analyze different scenarios and take calculated investment risk for alpha returns</li>
+        </ul>
+        </p>
+
+        <h1 class="title">Our Future Goals</h1>
+        <p class="info">We want to be a place where our customer can generate analytics at high speed with least effort. We are working towards achieving:
+        <ul class="item">
+            <li>Automation of Key DataInputs</li>
+            <li>Automated Market and Sector Analysis for inflection points</li>
+            <li>Automated categorisation and empirical studies of stocks with identical market views</li>
+            <li>Automated advise on expected performance based on empirical studies </li>
+        </ul>
+        </p>
+        <div class="blank"></div>
+      </main>
+      <p class="attribute"><a href="https://unsplash.com/photos/SoT4-mZhyhE?utm_source=unsplash" rel="noopener noreferrer">Photos by Unsplash</a></p>
+
+      <style>
+       main{margin:10px auto 0 auto; width: 75%; border-radius: 8px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);}
+      .title{font-family:Acme, sans-serif; width:100%; text-align: center; padding:20px 0 10px 0;}
+      .img{text-align: center; width:30%; margin:0 auto;}
+      .info{padding:20px 20px 0 20px;}
+      .item{padding:0px 20px 5px 40px;}
+      .blank{height: 50px;}
+      .attribute{text-align:right; font-size: 0.7rem;padding-right:10px;}
+
+        .ticker-container{margin-top:1px;width:100%; background-color:#181D27;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+            display:flex;justify-content:space-around;align-items:center; padding-top:10px; padding-bottom:10px; color:white;}
+    	.ticker{border:1px solid gray; padding:10px;border-radius:10px;text-align: center;}
+    	.ticker-item{font-size:1.3rem; font-weight: bold;color:#79D5B7}
+    	.ticker-price{font-weight:bold; font-size:1rem;}
+
+    	@media only screen and (max-width:768px){
+    	    main{width:90%;}
+    	    .ticker-item{font-size:0.8rem;}
+    	    .ticker-price{font-size:0.65rem;}
+    	    .ticker-container{padding-top:5px; padding-bottom:5px;}
+    	    .ticker{padding:5px; border-radius:5px;}
+    	}
+    	@media only screen and (max-width:576px){
+    	    main{width:100%;}
+    	    .ticker-item{font-size:0.65rem; font-weight:normal;}
+    	    .ticker-price{font-size:0.5rem;font-weight:normal}
+    	    .ticker-container{padding-top:2px; padding-bottom:2px;}
+    	    .ticker{padding:2px; border-radius:2px;}
+    	}
+
+      </style>
+{% endblock %}
+
+
+
+
+
