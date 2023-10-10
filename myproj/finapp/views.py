@@ -8,7 +8,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import HousePrice, BasicData, CompanyBeta
 
 from django.forms import modelformset_factory
-from .forms import Ticker
+# from .forms import Ticker
 # from .alphascript import alpha_calc
 
 import pandas as pd
@@ -70,6 +70,7 @@ class StockSelectionView(LoginRequiredMixin, View):
     def get(self, request):
         #  Company=TickerInput()
          tick_form = Company.objects.all()
+        #  print(tick_form)
          context={'tick_form':tick_form}
          return render(request, 'finapp/stockselection.html', context)
         # return Company.objects.first()

@@ -10,10 +10,10 @@
     {% csrf_token %}
     <div class="form">
         <!-- {{tick_form.as_p}} -->
-        <input type="text" list="ticker" placeholder="Search Company.." class="form-control" style="width: 300px;">
-        <datalist id="ticker">
+         <input type="text" list="tickers" name="ticker" id="ticker" placeholder="Search Company.." class="form-control" style="width: 300px; margin: auto;">
+        <datalist id="tickers">
             {% for results in tick_form %}
-            <option value="{{results.name}}">
+            <option value="{{results.ticker}}">{{results.name}}</option>
             {% endfor %}
         </datalist>
         <div class="btn-container"><input type="submit" value="GO!" class="btn"></div>

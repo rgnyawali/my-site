@@ -2,11 +2,9 @@ from django import forms
 from django.core.validators import RegexValidator
 from django.core.exceptions import ValidationError
 from .models import Contact
-from dal import autocomplete
-from finapp.models import Company
 
-def Ticker():
-    return  [('TXG','10x Genomics, Inc.'),
+class TickerInput(forms.Form):
+    tickers=[('TXG','10x Genomics, Inc.'),
 ('ATNF','180 Life Sciences Corp.'),
 ('FLWS','1-800-FLOWERS.COM, Inc.'),
 ('BCOW','1895 Bancorp of Wisconsin, Inc.'),
@@ -3770,20 +3768,10 @@ def Ticker():
 ('ZWS','Zurn Elkay Water Solutions Corporation'),
 ('ZYNE','Zynerba Pharmaceuticals, Inc.'),
 ('ZYXI','Zynex, Inc.'),
-]
-class TickerInput(forms.Form):
- 
-   ticker = forms.ModelChoiceField(
-        queryset=Company.objects.all(),
+            ]
 
-        widget=autocomplete.ModelSelect2(url='companyautocomplete/'),
-        label="Company:"
-      
-)
-            
+    ticker=forms.ChoiceField(choices=tickers, label='Company:')
 
-
-   
 
 class LocationForm(forms.Form):
     locations= [
