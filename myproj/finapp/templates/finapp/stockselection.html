@@ -9,7 +9,13 @@
 <form method="POST">
     {% csrf_token %}
     <div class="form">
-        {{tick_form.as_p}}
+        <!-- {{tick_form.as_p}} -->
+        <input type="text" list="ticker" placeholder="Search Company.." class="form-control" style="width: 300px;">
+        <datalist id="ticker">
+            {% for results in tick_form %}
+            <option value="{{results.name}}">
+            {% endfor %}
+        </datalist>
         <div class="btn-container"><input type="submit" value="GO!" class="btn"></div>
     </div>
 </form>

@@ -14,7 +14,7 @@ class Company(models.Model):
     name=models.CharField(max_length=100)
     longticker=models.CharField(max_length=20, null=True, blank=True)
     ticker=models.CharField(max_length=15)
-    industry=models.ForeignKey('Industry',related_name='industry',on_delete=models.CASCADE)
+    # industry=models.ForeignKey('Industry',related_name='industry',on_delete=models.CASCADE)
 
     def __str__(self):
         return f'{self.name}:{self.ticker}'

@@ -2,12 +2,14 @@ from django.shortcuts import render, redirect
 from django.views import View
 from .forms import LocationForm, TickerInput, ContactForm
 #from .scripts import stock_calculation, main_calculation
-from .newscript import main_calculation
+# from .newscript import main_calculation
 from django.contrib.auth.mixins import LoginRequiredMixin
 #from django.forms import formset_factory
 from .models import HousePrice, BasicData, CompanyBeta
 
-from .alphascript import alpha_calc
+from django.forms import modelformset_factory
+from .forms import Ticker
+# from .alphascript import alpha_calc
 
 import pandas as pd
 import numpy as np
@@ -21,6 +23,9 @@ import seaborn as sns
 import datetime as dt
 sns.set_theme(style='darkgrid')
 import yfinance as yf
+from django import forms
+from dal import autocomplete
+from .models import Company
 #import yahooquery as yq
 
 #===========================================================
@@ -53,14 +58,27 @@ def termsofuse(request):
 # Stock Selection View with company selection.
 #==================================================================
 class StockSelectionView(LoginRequiredMixin, View):
+    # model=Company
+    # form_class = TickerInput
+    # template_name = "finapp/stockselection.html"
+    # formset_class = modelformset_factory(
+    #     model=Company,
+    #     form=TickerInput,
+    #     extra=1,
+    #     fields=('name', 'ticker')
+    #     )
     def get(self, request):
-        tick_form=TickerInput()
-        context={'tick_form':tick_form}
-        return render(request, 'finapp/stockselection.html', context)
-
+        #  Company=TickerInput()
+         tick_form = Company.objects.all()
+         context={'tick_form':tick_form}
+         return render(request, 'finapp/stockselection.html', context)
+        # return Company.objects.first()
     def post(self,request):
+        print(request.POST)
         tick_form=TickerInput(request.POST)
+        
         if tick_form.is_valid():
+            print("im here")
             ticker=tick_form.cleaned_data['ticker']
             comparative_table,tick_detail, new_result,plot1, plot2, waterfallchart=alpha_calc(ticker)
             context={'comparative':comparative_table, 'is_data':True, 'tick_detail':tick_detail, 'new_result':new_result,'plot1':plot1,'plot2':plot2,'waterfallchart':waterfallchart}
@@ -164,5 +182,27 @@ class ContactView(LoginRequiredMixin, View):
             return render(request,'finapp/main.html',context)
         context={'form':form}
         return render(request, 'finapp/contact.html',context)
+    
+class CompanyAutocompleteView(autocomplete.Select2ListView, View):
+    def get_queryset(self):
+
+        if not self.request.user.is_authenticated:
+            return Company.objects.none()
+            # return Ticker
+
+        qs = Company.objects.all()
+        # qs = Ticker
+
+        if self.q:
+            qs = qs.filter(name__istartswith=self.q)
+
+        return qs
+    
+class CompanyModel(View):
+    # def get_queryset(self):
+    #     if not self.request.user.is_authenticated:
+    #         return Company.objects.none()
+        
+    Company.objects.all()
 
 
