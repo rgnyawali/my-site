@@ -16,3 +16,19 @@ class RegisterForm(UserCreationForm):
 		if commit:
 			user.save()
 		return user
+	
+class PasswordReset(forms.Form):
+	email = forms.EmailField(label="Email")
+
+class SetPassword(forms.Form):
+ password1 = forms.CharField(
+        label="Password",
+        strip=False,
+        widget=forms.PasswordInput(attrs={"autocomplete": "new-password"}),
+		)
+ password2 = forms.CharField(
+        label=("Password Confirmation"),
+        widget=forms.PasswordInput(attrs={"autocomplete": "new-password"}),
+        strip=False,
+        
+    )
