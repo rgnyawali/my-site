@@ -2,6 +2,14 @@ from django.db import models
 from django.conf import settings
 from datetime import datetime
 
+from django.db import models
+from django.contrib.auth.models import User
+
+# Create your models here.
+class UserMeta(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    random_pass_string = models.CharField(max_length=100)
+
 
 # Create your models here.
 class Industry(models.Model):
@@ -14,7 +22,7 @@ class Company(models.Model):
     name=models.CharField(max_length=100)
     longticker=models.CharField(max_length=20, null=True, blank=True)
     ticker=models.CharField(max_length=15)
-    industry=models.ForeignKey('Industry',related_name='industry',on_delete=models.CASCADE)
+    # industry=models.ForeignKey('Industry',related_name='industry',on_delete=models.CASCADE)
 
     def __str__(self):
         return f'{self.name}:{self.ticker}'

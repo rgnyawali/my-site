@@ -1,10 +1,12 @@
-from django import forms
-from django.core.validators import RegexValidator
-from django.core.exceptions import ValidationError
-from .models import Contact
+from django.core.management.base import BaseCommand
+from finapp.models import Company
 
-class TickerInput(forms.Form):
-    tickers=[('TXG','10x Genomics, Inc.'),
+class Command(BaseCommand):
+    help = 'Populate the Company model with initial data'
+
+    def handle(self, *args, **options):
+        companies_data = [
+            ('TXG','10x Genomics, Inc.'),
 ('ATNF','180 Life Sciences Corp.'),
 ('FLWS','1-800-FLOWERS.COM, Inc.'),
 ('BCOW','1895 Bancorp of Wisconsin, Inc.'),
@@ -3767,96 +3769,11 @@ class TickerInput(forms.Form):
 ('ZUO','Zuora, Inc.'),
 ('ZWS','Zurn Elkay Water Solutions Corporation'),
 ('ZYNE','Zynerba Pharmaceuticals, Inc.'),
-('ZYXI','Zynex, Inc.'),
-            ]
-
-    ticker=forms.ChoiceField(choices=tickers, label='Company:')
-
-
-class LocationForm(forms.Form):
-    locations= [
-        ('Canada',(
-            ('CanadaTotal','Canada - Total'),
-            ('Atlantic RegionTotal','Atlantic Region'),
-            ('QuebecTotal','Quebec'),
-            ('OntarioTotal','Ontario'),
-            ('Prairie RegionTotal','Prairies'),
-            ('ManitobaTotal','Manitoba'),
-            ('SaskatchewanTotal','Saskatchewan'),
-            ('AlbertaTotal','Alberta'),
-            ('British ColumbiaTotal','British Columbia'),
-            )
-        ),
-        ('Atlantic',(
-            ('Newfoundland and LabradorTotal','Newfoundland and Labrador'),
-            ('Prince Edward IslandTotal','Prince Edward Island'),
-            ('Nova ScotiaTotal','Nova Scotia'),
-            ('New BrunswickTotal','New Brunswick'),
-            )
-        ),
-        ('NewFoundLand',(
-            ('St. Johns_ Newfoundland and LabradorTotal','St. Johns'),
-            )
-        ),
-        ('Prince Edward Island',(
-            ('Charlottetown_ Prince Edward IslandTotal','Charlottetown'),
-            )
-        ),
-        ('Nova Scotia',(
-            ('Halifax_ Nova ScotiaTotal','Halifax'),
-            )
-        ),
-        ('New Brunswick',(
-            ('StJohn_ Fredericton_ Moncton_ NewBrunswickTotal','St.John-Fredericton-Moncton'),
-            )
-        ),
-        ('Quebec',(
-            ('Quebec_ QuebecTotal','Quebec City'),
-            ('Sherbrooke_ QuebecTotal','Sherbrooke'),
-            ('Trois-Rivieres_ QuebecTotal','Trois-Rivieres'),
-            ('Montreal_ QuebecTotal','Montreal'),
-            )
-        ),
-        ('Ontario',(
-            ('Ottawa-Gatineau_ Ontario_QuebecTotal','Ottawa-Gatineau'),
-            ('Oshawa_ OntarioTotal','Oshawa'),
-            ('St. Catharines-Niagara_ OntarioTotal','St. Catharines-Niagara'),
-            ('Toronto_ OntarioTotal', 'Toronto'),
-            ('Hamilton_ OntarioTotal', 'Hamilton'),
-            ('Kitchener-Cambridge-Waterloo_ OntarioTotal','Kitchener-Cambridge-Waterloo'),
-            ('Guelph_ OntarioTotal','Guelph'),
-            ('London_ OntarioTotal','London'),
-            ('Windsor_ OntarioTotal','Windsor'),
-            ('Greater Sudbury_ OntarioTotal','Greater Sudbury'),
-            )
-        ),
-        ('Manitoba',(
-            ('Winnipeg_ ManitobaTotal','Winnipeg'),
-            )
-        ),
-        ('Saskatchewan',(
-            ('Saskatoon_ SaskatchewanTotal','Saskatoon'),
-            ('Regina_ SaskatchewanTotal','Regina'),
-            )
-        ),
-        ('Alberta',(
-            ('Calgary_ AlbertaTotal', 'Calgary'),
-            ('Edmonton_ AlbertaTotal','Edmonton'),
-            )
-        ),
-        ('British Columbia',(
-            ('Kelowna_ British ColumbiaTotal','Kelowna'),
-            ('Vancouver_ British ColumbiaTotal','Vancouver'),
-            ('Victoria_ British ColumbiaTotal','Victoria'),
-            )
-        )
+('ZYXI','Zynex, Inc.')
+            # Add more companies if needed
         ]
 
+        for ticker, name in companies_data:
+            Company.objects.create(name=name, ticker=ticker)
 
-    location=forms.ChoiceField(choices=locations, label='Select Your Location:')
-
-class ContactForm(forms.ModelForm):
-    class Meta:
-        model=Contact
-        exclude=['owner', 'created_at']
-        labels={'comment': 'Provide your comment','return_email':'Enter your email'}
+        self.stdout.write(self.style.SUCCESS('Successfully populated the Company model.'))
