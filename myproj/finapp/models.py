@@ -2,6 +2,14 @@ from django.db import models
 from django.conf import settings
 from datetime import datetime
 
+from django.db import models
+from django.contrib.auth.models import User
+
+# Create your models here.
+class UserMeta(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    random_pass_string = models.CharField(max_length=100)
+
 
 # Create your models here.
 class Industry(models.Model):
