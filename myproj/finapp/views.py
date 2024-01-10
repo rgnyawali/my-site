@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.views import View
-from .forms import LocationForm, TickerInput, ContactForm
+from .forms import CompanyForm,PostCompanyForm, LocationForm, TickerInput, ContactForm
 #from .scripts import stock_calculation, main_calculation
 # from .newscript import main_calculation
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -58,32 +58,23 @@ def termsofuse(request):
 # Stock Selection View with company selection.
 #==================================================================
 class StockSelectionView(LoginRequiredMixin, View):
-    # model=Company
-    # form_class = TickerInput
-    # template_name = "finapp/stockselection.html"
-    # formset_class = modelformset_factory(
-    #     model=Company,
-    #     form=TickerInput,
-    #     extra=1,
-    #     fields=('name', 'ticker')
-    #     )
+   
     def get(self, request):
         #  Company=TickerInput()
-         tick_form = Company.objects.all()
-        #  print(tick_form)
-         context={'tick_form':tick_form}
-         return render(request, 'finapp/stockselection.html', context)
+         datas = Company.objects.all()
+         form = CompanyForm()
+        # context={'tick_form':tick_form}
+         return render(request, 'finapp/stockselection.html', {'form':form,'datas':datas})
         # return Company.objects.first()
     def post(self,request):
-        print(request.POST)
-        tick_form=TickerInput(request.POST)
-        
+        tick_form=PostCompanyForm(request.POST)
         if tick_form.is_valid():
-            print("im here")
             ticker=tick_form.cleaned_data['ticker']
             comparative_table,tick_detail, new_result,plot1, plot2, waterfallchart=alpha_calc(ticker)
             context={'comparative':comparative_table, 'is_data':True, 'tick_detail':tick_detail, 'new_result':new_result,'plot1':plot1,'plot2':plot2,'waterfallchart':waterfallchart}
             return render(request, 'finapp/stockresult2.html',context)
+        else:
+            print(tick_form.errors)
         context={'tick_form':tick_form}
         return render(request, 'finapp/stockselection.html', context)
 

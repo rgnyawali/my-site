@@ -125,3 +125,4 @@ class BackTestData(models.Model):
     class Meta:
         unique_together = ('period','ticker')
 
+

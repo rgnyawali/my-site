@@ -9,13 +9,21 @@
 <form method="POST">
     {% csrf_token %}
     <div class="form">
-        <!-- {{tick_form.as_p}} -->
-         <input type="text" list="tickers" name="ticker" id="ticker" placeholder="Search Company.." class="form-control" style="width: 300px; margin: auto;">
+        <!-- {{form.as_p}}  -->
+         <!-- <input type="text" list="tickers" name="ticker" id="ticker" placeholder="Search Company.." class="form-control" style="width: 300px; margin: auto;">
         <datalist id="tickers">
             {% for results in tick_form %}
             <option value="{{results.ticker}}">{{results.name}}</option>
             {% endfor %}
-        </datalist>
+        </datalist> -->
+        <br>
+        <select class="js-example-basic-single form-select" name="ticker" placeholder="Search Company.." style="width: 300px;">
+            <option value="" disabled selected>Search Company...</option>
+            {% for item in datas %}
+                <option value="{{ item.ticker }}">{{item.ticker}} - {{ item.name }}</option>
+            {% endfor %}
+        </select>
+
         <div class="btn-container"><input type="submit" value="GO!" class="btn"></div>
     </div>
 </form>
@@ -79,4 +87,14 @@
 
 
 </style>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('.js-example-basic-single').select2({
+            outerWidth:'50px'
+        });
+    });
+</script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
 {% endblock %}

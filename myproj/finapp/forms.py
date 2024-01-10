@@ -1,7 +1,7 @@
 from django import forms
 from django.core.validators import RegexValidator
 from django.core.exceptions import ValidationError
-from .models import Contact
+from .models import Contact, Company
 
 class TickerInput(forms.Form):
     tickers=[('TXG','10x Genomics, Inc.'),
@@ -3860,3 +3860,13 @@ class ContactForm(forms.ModelForm):
         model=Contact
         exclude=['owner', 'created_at']
         labels={'comment': 'Provide your comment','return_email':'Enter your email'}
+
+class CompanyForm(forms.Form):
+    
+    ticker = forms.ChoiceField(choices=[], label="Company")
+
+class PostCompanyForm(forms.Form):
+  
+    ticker = forms.ChoiceField(choices=Company.objects.values_list('ticker','name'), label="Company")
+    
+    
